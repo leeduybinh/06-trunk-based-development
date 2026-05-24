@@ -1,10 +1,8 @@
 export function createTaskBoard({ title = 'TBD Lab Board', flags } = {}) {
   const tasks = [];
 
-  function addTask(title, options = {}) {
-    if (!title || title.trim().length === 0) {
-      throw new Error('Task title is required');
-    }
+  const addTask = (title, options = {}) => {
+    if (!title?.trim()) throw new Error('Task title is required');
 
     const task = {
       id: tasks.length + 1,
@@ -15,25 +13,22 @@ export function createTaskBoard({ title = 'TBD Lab Board', flags } = {}) {
 
     tasks.push(task);
     return task;
-  }
+  };
 
-  function completeTask(id) {
-    const task = tasks.find((item) => item.id === id);
-
-    if (!task) {
-      throw new Error(`Task ${id} was not found`);
-    }
+  const completeTask = (id) => {
+    const task = tasks.find((task) => task.id === id);
+    if (!task) throw new Error(`Task ${id} was not found`);
 
     task.done = true;
     return task;
-  }
+  };
 
-  function listTasks() {
-    const canShowHiddenTasks = flags?.isEnabled('show-hidden-tasks') === true;
-    return tasks.filter((task) => canShowHiddenTasks || !task.hidden);
-  }
+  const listTasks = () =>
+    tasks.filter(
+      (task) => flags?.isEnabled('show-hidden-tasks') || !task.hidden
+    );
 
-  function summary() {
+  const summary = () => {
     const visibleTasks = listTasks();
     const completed = visibleTasks.filter((task) => task.done).length;
 
@@ -43,12 +38,7 @@ export function createTaskBoard({ title = 'TBD Lab Board', flags } = {}) {
       completed,
       remaining: visibleTasks.length - completed
     };
-  }
-
-  return {
-    addTask,
-    completeTask,
-    listTasks,
-    summary
   };
+
+  return { addTask, completeTask, listTasks, summary };
 }
