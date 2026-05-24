@@ -14,6 +14,11 @@ export function createFeatureFlags(initialFlags = {}) {
       flags.set(name, false);
     },
 
+    toggle(name) {
+      const currentValue = flags.get(name) === true;
+      flags.set(name, !currentValue);
+    },
+
     snapshot() {
       return Object.fromEntries(flags.entries());
     }
