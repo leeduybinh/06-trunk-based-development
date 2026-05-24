@@ -15,3 +15,8 @@ console.log(board.summary());
 flags.enable('show-hidden-tasks');
 console.log('After enabling feature flag');
 console.log(board.summary());
+
+
+flags.enable('show-hidden-tasks');
+console.log('After enabling feature flag111');
+console.log(board.summary());
